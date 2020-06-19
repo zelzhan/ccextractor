@@ -8,6 +8,7 @@
 [![SourceForge](https://img.shields.io/badge/SourceForge%20downloads-213k%2Ftotal-brightgreen.svg)](https://sourceforge.net/projects/ccextractor/)
 [![GitHub All Releases](https://img.shields.io/github/downloads/CCExtractor/CCExtractor/total.svg)](https://github.com/CCExtractor/ccextractor/releases/latest)
 
+
 CCExtractor is a tool used to produce subtitles for TV recordings from almost anywhere in the world. We intend to keep up with all sources and formats.
 
 Subtitles are important for many people. If you're learning a new language, subtitles are a great way to learn it from movies or TV shows. If you are hard of hearing, subtitles can help you better understand what's happening on the screen. We aim to make it easy to generate subtitles by using the command line tool or Windows GUI.
