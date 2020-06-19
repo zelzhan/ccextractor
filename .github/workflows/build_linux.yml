@@ -1,0 +1,80 @@
+
+name: Build CCExtractor on Linux
+
+on:
+  push:
+    paths:
+    - '.github/workflows/build_linux.yml'
+    - '**.c'
+    - '**.h'
+    - '**Makefile**'
+    - 'linux/**'
+    - 'package_creators/**'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+    - '.github/workflows/build_linux.yml'
+    - '**.c'
+    - '**.h'
+    - '**Makefile**'
+    - 'linux/**'
+    - 'package_creators/**'
+jobs:
+  build_shell:
+    runs-on: ubuntu-latest    
+    steps:
+    - name: Install tesseract
+      run: sudo apt-get install libtesseract-dev
+    - uses: actions/checkout@v1
+    - name: build
+      run: ./build
+      working-directory: ./linux
+    - name: Display version information
+      run: ./linux/ccextractor --version
+    - name: Prepare artifacts
+      run: mkdir ./linux/artifacts
+    - name: Copy release artifact
+      run: cp ./linux/ccextractor ./linux/artifacts/
+    - uses: actions/upload-artifact@v1
+      with:
+        name: CCExtractor Linux build
+        path: ./linux/artifacts
+  build_autoconf:
+    runs-on: ubuntu-latest    
+    steps:
+    - uses: actions/checkout@v1
+    - name: run autogen
+      run: ./autogen.sh
+      working-directory: ./linux
+    - name: configure
+      run: ./configure
+      working-directory: ./linux
+    - name: make
+      run: make
+      working-directory: ./linux
+    - name: Display version information
+      run: ./linux/ccextractor --version
+  cmake:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: cmake
+      run: mkdir build && cd build && cmake ../src
+    - name: build
+      run: make -j$(nproc)
+      working-directory: build
+    - name: Display version information
+      run: ./build/ccextractor --version
+  cmake_ocr_hardsubx:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: dependencies
+      run: sudo apt update && sudo apt install libtesseract-dev libavformat-dev libswscale-dev
+    - name: cmake
+      run: mkdir build && cd build && cmake -DWITH_OCR=ON -DWITH_HARDSUBX=ON ../src
+    - name: build
+      run: make -j$(nproc)
+      working-directory: build
+    - name: Display version information
+      run: ./build/ccextractor --version

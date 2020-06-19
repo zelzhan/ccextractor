@@ -1,0 +1,22 @@
+name: Format sourcecode
+on:
+  push:
+    paths:
+    - '.github/workflows/format.yml'
+    - 'src/**.c'
+    - 'src/**.h'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+    - '.github/workflows/format.yml'
+    - 'src/**.c'
+    - 'src/**.h'
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Format code
+        run: |
+          find src/ -type f -name '*.c' -not -path "src/GUI/icon_data.c" | xargs clang-format -i
+          git diff-index --quiet HEAD -- || (git diff && exit 1)
