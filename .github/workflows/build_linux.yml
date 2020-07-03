@@ -84,7 +84,7 @@ jobs:
         url: 'http://192.168.0.106:5000/api/latest-linux-artifact'
         method: 'GET'
     - name: run VM machine 
-    - uses: fjogeleit/http-request-action@master
+      uses: fjogeleit/http-request-action@master
       with:
         url: 'http://192.168.0.106:3333/api/machine/create'
         method: 'POST'    
