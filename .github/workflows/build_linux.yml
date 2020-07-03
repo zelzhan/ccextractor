@@ -88,4 +88,4 @@ jobs:
       with:
         url: 'http://192.168.0.106:3333/api/machine/create'
         method: 'POST'    
-        data: '{name: "gsoc-demo"}'
+        data: '{"name": "gsoc-demo"}'
